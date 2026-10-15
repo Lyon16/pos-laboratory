@@ -11,9 +11,9 @@ class CustomerModel extends Model
     protected $returnType = 'array';
 
     protected $allowedFields = [
-        'full_name',
-        'email',
-        'phone',
-        'created_at'
+    'full_name',
+    'email',
+    'phone',
+    'created_at'
     ];
 }
