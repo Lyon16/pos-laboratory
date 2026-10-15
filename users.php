@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>POS System - Users</title>
+    <title>POS System - Customers</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -31,12 +32,18 @@
             border-radius: 12px;
         }
 
-        .avatar-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #e2e8f0;
+        .table thead {
+            background-color: #1e293b;
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #2563eb;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
         }
     </style>
 </head>
@@ -50,10 +57,10 @@
         </a>
 
         <div class="navbar-nav ms-auto">
-            <a class="nav-link" href="<?= site_url('customers') ?>">
+            <a class="nav-link active" href="<?= site_url('customers') ?>">
                 Customers
             </a>
-            <a class="nav-link active" href="<?= site_url('users') ?>">
+            <a class="nav-link" href="<?= site_url('users') ?>">
                 User Accounts
             </a>
         </div>
@@ -62,9 +69,9 @@
 
 <div class="container py-5">
 
-    <h2 class="page-title mb-2">User Accounts</h2>
+    <h2 class="page-title mb-2">Customer Accounts</h2>
     <p class="text-muted mb-4">
-        View and manage registered staff accounts.
+        View and manage customer information.
     </p>
 
     <?php if (session()->getFlashdata('success')): ?>
@@ -77,11 +84,11 @@
         <div class="card-body p-4">
 
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h5 class="mb-0">Staff List</h5>
+                <h5 class="mb-0">Customer List</h5>
 
-                <a href="<?= site_url('users/new') ?>"
+                <a href="<?= site_url('customers/new') ?>"
                    class="btn btn-primary">
-                    + Add New User
+                    + Add New Customer
                 </a>
             </div>
 
@@ -89,47 +96,35 @@
                 <table class="table table-hover align-middle">
                     <thead class="table-dark">
                         <tr>
-                            <th>Avatar</th>
                             <th>ID</th>
-                            <th>Username</th>
                             <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <?php if (!empty($users)): ?>
-                            <?php foreach ($users as $user): ?>
-                                <?php
-                                    $avatar = !empty($user['avatar'])
-                                        ? base_url('uploads/avatars/' . rawurlencode($user['avatar']))
-                                        : base_url('images/default-avatar.png');
-                                ?>
+                        <?php if (!empty($customers)): ?>
+                            <?php foreach ($customers as $customer): ?>
+                            <tr>
+                                <td><?= esc($customer['id']) ?></td>
+                                <td><?= esc($customer['full_name']) ?></td>
+                                <td><?= esc($customer['email']) ?></td>
+                                <td><?= esc($customer['phone'] ?? '') ?></td>
 
-                                <tr>
-                                    <td>
-                                        <img src="<?= esc($avatar, 'attr') ?>"
-                                             alt="User Avatar"
-                                             class="avatar-img"
-                                             onerror="this.onerror=null;this.src='<?= esc(base_url('images/default-avatar.png'), 'attr') ?>';">
-                                    </td>
-
-                                    <td><?= esc($user['id']) ?></td>
-                                    <td><?= esc($user['username']) ?></td>
-                                    <td><?= esc($user['full_name']) ?></td>
-
-                                    <td>
-                                        <a href="<?= site_url('users/edit/' . $user['id']) ?>"
-                                           class="btn btn-sm btn-warning">
-                                            Edit
-                                        </a>
-                                    </td>
-                                </tr>
+                                <td>
+                                    <a href="<?= site_url('customers/edit/' . $customer['id']) ?>"
+                                       class="btn btn-sm btn-warning">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
                                 <td colspan="5" class="text-center text-muted py-4">
-                                    No users found.
+                                    No customers found.
                                 </td>
                             </tr>
                         <?php endif; ?>
